@@ -1,0 +1,23 @@
+{
+  "name": "simple-worker-thread-queue",
+  "version": "1.0.1",
+  "main": "exports.ts",
+  "types": "exports.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tcallsen/simple-worker-thread-queue.git"
+  },
+  "author": "Taylor Callsen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tcallsen/simple-worker-thread-queue/issues"
+  },
+  "homepage": "https://github.com/tcallsen/simple-worker-thread-queue#readme",
+  "description": "Simple Node.js queue that executes jobs asynchronously with worker threads",
+  "dependencies": {
+    "uuid": "^11.1.0"
+  }
+}
