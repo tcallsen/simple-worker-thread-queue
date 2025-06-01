@@ -1,13 +1,13 @@
 {
   "name": "simple-worker-thread-queue",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "dist/exports.js",
   "types": "dist/exports.d.ts",
   "engines": {
     "node": "22.x"
   },
   "scripts": {
-    "build": "rm -rf dist && npx tsc --project tsconfig.json --outDir dist",
+    "build": "rm -rf dist && npx tsc --project tsconfig.json",
     "check": "npx tsc --noEmit",
     "prepublishOnly": "npm run build"
   },

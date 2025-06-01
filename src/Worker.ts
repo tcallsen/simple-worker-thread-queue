@@ -1,7 +1,7 @@
 import { parentPort } from 'worker_threads';
 
-import type { JobDataBase, JobType } from '../types/Job';
-import type { WorkerMessage, WorkerResponse } from '../types/Worker';
+import type { JobDataBase, JobType } from './types/Job';
+import type { WorkerMessage, WorkerResponse } from './types/Worker';
 
 import { Job } from './Job';
 

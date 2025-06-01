@@ -32,7 +32,6 @@ export interface JobDataBase {
 }
 
 // need to use any to appease TypeScript :-/
-/* eslint-disable  @typescript-eslint/no-explicit-any */
 export interface JobCallbackFunction<JobOptions extends JobOptionsBase = any, JobData extends JobDataBase = any> {
   (completedJob: JobType<JobOptions, JobData>): Promise<void>
 }

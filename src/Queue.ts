@@ -3,10 +3,10 @@ import { EventEmitter } from 'events';
 import path from 'node:path';
 import cron from 'node-cron';
 
-import type { JobCallbackFunction, JobDataBase, JobOptionsBase, JobType } from '../types/Job';
-import type { QueueOptions, QueueType } from '../types/Queue';
-import type { BatchType } from '../types/Batch';
-import type { WorkerResponse } from '../types/Worker';
+import type { JobCallbackFunction, JobDataBase, JobOptionsBase, JobType } from './types/Job';
+import type { QueueOptions, QueueType } from './types/Queue';
+import type { BatchType } from './types/Batch';
+import type { WorkerResponse } from './types/Worker';
 
 import { Job } from './Job';
 

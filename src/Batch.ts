@@ -1,8 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import type { BatchCallbackFunction, BatchType } from '../types/Batch';
-import type { JobStatus, JobDuration, JobDataBase, JobOptionsBase } from '../types/Job';
-import type { JobType } from '../types/Job';
+import type { BatchCallbackFunction, BatchType } from './types/Batch';
+import type { JobStatus, JobDuration, JobDataBase, JobOptionsBase } from './types/Job';
+import type { JobType } from './types/Job';
 
 import { Job } from './Job';
 
