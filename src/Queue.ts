@@ -3,12 +3,12 @@ import { EventEmitter } from 'events';
 import path from 'node:path';
 import cron from 'node-cron';
 
-import type { JobCallbackFunction, JobDataBase, JobOptionsBase, JobType } from '../types/Job.ts';
-import type { QueueOptions, QueueType } from '../types/Queue.ts';
-import type { BatchType } from '../types/Batch.ts';
-import type { WorkerResponse } from '../types/Worker.ts';
+import type { JobCallbackFunction, JobDataBase, JobOptionsBase, JobType } from '../types/Job';
+import type { QueueOptions, QueueType } from '../types/Queue';
+import type { BatchType } from '../types/Batch';
+import type { WorkerResponse } from '../types/Worker';
 
-import { Job } from './Job.ts';
+import { Job } from './Job';
 
 // read CONCURRENT_WORKER_THREADS from .env file
 import { config } from 'dotenv';
@@ -104,7 +104,7 @@ export class Queue<JobOptions extends JobOptionsBase = JobOptionsBase, JobData e
 
     console.log(`startProcessing with queue length ${this.queuedJobs.length} and currently processing jobs ${this.processingJobs.length}`);
 
-    // @ts-expect-error items length confirmed above
+    // @ts-expect-error if .shift() returns undefined, I've got bigge problems
     const job: JobType<JobOptions, JobData> = this.queuedJobs.shift();
 
     // update batch status if job is part of a batch
@@ -114,7 +114,7 @@ export class Queue<JobOptions extends JobOptionsBase = JobOptionsBase, JobData e
     this.processingJobs.push(job);
 
     // initialize worker thread to process job - thread will exit when job is finished processing
-    const worker: Worker = new Worker(path.join(import.meta.dirname, 'Worker.ts'));
+    const worker: Worker = new Worker(path.join(__dirname, 'Worker'));
     worker.on('message', this.onWorkerResponse.bind(this));
     worker.on('exit', (status) => {
       console.log('worker exited with status', status);

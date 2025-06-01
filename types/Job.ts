@@ -25,8 +25,8 @@ export interface JobOptionsBase {
 
 export interface JobDataBase {
   error?: {
-    error: string
-    errorType: string
+    error?: string
+    errorType?: string
     status: number
   }
 }

@@ -1,10 +1,10 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import type { BatchCallbackFunction, BatchType } from '../types/Batch.ts';
+import type { BatchCallbackFunction, BatchType } from '../types/Batch';
 import type { JobStatus, JobDuration, JobDataBase, JobOptionsBase } from '../types/Job';
 import type { JobType } from '../types/Job';
 
-import { Job } from './Job.ts';
+import { Job } from './Job';
 
 export class Batch<JobOptions extends JobOptionsBase = JobOptionsBase, JobData extends JobDataBase = JobDataBase> implements BatchType<JobOptions, JobData> {
   private readonly id: string;
@@ -15,7 +15,7 @@ export class Batch<JobOptions extends JobOptionsBase = JobOptionsBase, JobData e
   // jobs are only current as of their last call to this.update() - references to jobs
   //  are broken during serialization/communicate with worker
   private jobs: {
-    [jobId: string]: JobType
+    [jobId: string]: JobType<JobOptions, JobData>
   };
 
   constructor(completionCallback?: BatchCallbackFunction<JobOptions, JobData>) {
@@ -27,11 +27,11 @@ export class Batch<JobOptions extends JobOptionsBase = JobOptionsBase, JobData e
     this.jobs = {};
   }
 
-  addJob(job: JobType): void {
+  addJob(job: JobType<JobOptions, JobData>): void {
     this.jobs[job.getId()] = job;
   }
 
-  update(notifyingJob: JobType): void {
+  update(notifyingJob: JobType<JobOptions, JobData>): void {
     // update job in batch
     this.jobs[notifyingJob.getId()] = notifyingJob;
 
@@ -43,7 +43,7 @@ export class Batch<JobOptions extends JobOptionsBase = JobOptionsBase, JobData e
 
     if (notifyingJob.getStatus() === 'completed' || notifyingJob.getStatus() === 'failed') {
       // check if this is last job to finish processing
-      const allJobsFinished: boolean = Object.values(this.jobs).every((job: JobType) => job.getStatus() === 'completed' || job.getStatus() === 'failed');
+      const allJobsFinished: boolean = Object.values(this.jobs).every((job: JobType<JobOptions, JobData>) => job.getStatus() === 'completed' || job.getStatus() === 'failed');
 
       // mark end time when last job is completed or failed
       if (allJobsFinished && this.duration.start) {

@@ -1,4 +1,9 @@
-export * from './src/Batch.ts';
-export * from './src/Job.ts';
-export * from './src/Queue.ts';
-export * from './src/Worker.ts';
+export * from './src/Batch';
+// export * from './src/Job';
+export * from './src/Queue';
+// export * from './src/Worker';
+
+export type * from './types/Batch';
+export type * from './types/Job';
+export type * from './types/Queue';
+export type * from './types/Worker';

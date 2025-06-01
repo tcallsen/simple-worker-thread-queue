@@ -1,9 +1,9 @@
 import { parentPort } from 'worker_threads';
 
-import type { JobDataBase, JobType } from '../types/Job.ts';
-import type { WorkerMessage, WorkerResponse } from '../types/Worker.ts';
+import type { JobDataBase, JobType } from '../types/Job';
+import type { WorkerMessage, WorkerResponse } from '../types/Worker';
 
-import { Job } from './Job.ts';
+import { Job } from './Job';
 
 if (!parentPort) {
   throw new Error('This file must be run as a worker thread!');
@@ -39,12 +39,12 @@ parentPort.on('message', async (options: WorkerMessage) => {
     // write results (jobData) back to job
     job.updateData(jobData);
     job.updateStatus('completed');
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error processing job; marking as failed', error);
-    job.updateData({ error: { error: error.stack, errorType: error.name, status: -1 } });
+    job.updateData({ error: { error: (error as Error).stack, errorType: (error as Error).name, status: -1 } });
     job.updateStatus('failed');
   } finally {
-    // @ts-expect-error parentPort confirmed present at script start-up
+    // @ts-expect-error verified this is set above
     parentPort.postMessage({
       status: job.getStatus(),
       jobJson: job.asJSON(),

@@ -1,7 +1,7 @@
 import type { JobType, JobStatus, JobDuration, JobDataBase, JobOptionsBase } from './Job';
 
 export type BatchType<JobOptions extends JobOptionsBase = JobOptionsBase, JobData extends JobDataBase = JobDataBase> = {
-  addJob: (job: JobType) => void
+  addJob: (job: JobType<JobOptions, JobData>) => void
   update: (notifyingJob: JobType<JobOptions, JobData>) => void
   getId: () => string
   getStatus: () => JobStatus

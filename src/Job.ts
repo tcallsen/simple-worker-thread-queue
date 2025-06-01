@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import type { JobDataBase, JobDuration, JobOptionsBase, JobStatus, JobType } from '../types/Job.ts';
+import type { JobDataBase, JobDuration, JobOptionsBase, JobStatus, JobType } from '../types/Job';
 
 export class Job<JobOptions extends JobOptionsBase = JobOptionsBase, JobData extends JobDataBase = JobDataBase> implements JobType {
   private readonly id: string;

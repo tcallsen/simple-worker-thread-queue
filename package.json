@@ -1,10 +1,14 @@
 {
   "name": "simple-worker-thread-queue",
   "version": "1.0.2",
-  "main": "exports.ts",
-  "types": "exports.d.ts",
+  "main": "dist/exports.js",
+  "types": "dist/exports.d.ts",
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
-    "build": "npx tsc --noCheck",
+    "build": "rm -rf dist && npx tsc --project tsconfig.json --outDir dist",
+    "check": "npx tsc --noEmit",
     "prepublish": "npm run build"
   },
   "repository": {
@@ -19,9 +23,12 @@
   "homepage": "https://github.com/tcallsen/simple-worker-thread-queue#readme",
   "description": "Simple Node.js queue that executes jobs asynchronously with worker threads",
   "dependencies": {
+    "dotenv": "^16.5.0",
+    "node-cron": "^4.1.0",
     "uuid": "^11.1.0"
   },
   "devDependencies": {
+    "@types/node": "^22.15.29",
     "typescript": "^5.8.3"
   }
 }
