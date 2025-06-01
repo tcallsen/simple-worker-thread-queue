@@ -1,6 +1,6 @@
 {
   "name": "simple-worker-thread-queue",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "dist/exports.js",
   "types": "dist/exports.d.ts",
   "engines": {
@@ -9,7 +9,7 @@
   "scripts": {
     "build": "rm -rf dist && npx tsc --project tsconfig.json --outDir dist",
     "check": "npx tsc --noEmit",
-    "prepublish": "npm run build"
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",
