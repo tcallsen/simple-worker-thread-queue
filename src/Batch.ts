@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import type { BatchCallbackFunction, BatchType } from './types/Batch';
+import type { BatchCompletionCallback, BatchType } from './types/Batch';
 import type { JobStatus, JobDuration, JobDataBase, JobOptionsBase } from './types/Job';
 import type { JobType } from './types/Job';
 
@@ -10,7 +10,7 @@ export class Batch<JobOptions extends JobOptionsBase = JobOptionsBase, JobData e
   private readonly id: string;
   private status: JobStatus;
   private duration: JobDuration;
-  private completionCallback?: BatchCallbackFunction<JobOptions, JobData>;
+  private completionCallback?: BatchCompletionCallback<JobOptions, JobData>;
 
   // jobs are only current as of their last call to this.update() - references to jobs
   //  are broken during serialization/communicate with worker
@@ -18,7 +18,7 @@ export class Batch<JobOptions extends JobOptionsBase = JobOptionsBase, JobData e
     [jobId: string]: JobType<JobOptions, JobData>
   };
 
-  constructor(completionCallback?: BatchCallbackFunction<JobOptions, JobData>) {
+  constructor(completionCallback?: BatchCompletionCallback<JobOptions, JobData>) {
     this.id = `batch-${Date.now()}-${uuidv4()}`;
     this.status = 'pending';
     this.duration = {};

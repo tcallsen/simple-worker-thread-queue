@@ -9,6 +9,6 @@ export type BatchType<JobOptions extends JobOptionsBase = JobOptionsBase, JobDat
   getJobs: () => JobType<JobOptions, JobData>[]
 };
 
-export interface BatchCallbackFunction<JobOptions extends JobOptionsBase = JobOptionsBase, JobData extends JobDataBase = JobDataBase> {
+export interface BatchCompletionCallback<JobOptions extends JobOptionsBase = JobOptionsBase, JobData extends JobDataBase = JobDataBase> {
   (completedBatch: BatchType<JobOptions, JobData>): Promise<void>
 };

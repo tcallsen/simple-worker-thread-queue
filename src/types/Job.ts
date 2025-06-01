@@ -20,7 +20,7 @@ export type JobDuration = {
 };
 
 export interface JobOptionsBase {
-  completionCallback?: JobCallbackFunction
+  completionCallback?: JobCompletionCallback
 }
 
 export interface JobDataBase {
@@ -32,6 +32,6 @@ export interface JobDataBase {
 }
 
 // need to use any to appease TypeScript :-/
-export interface JobCallbackFunction<JobOptions extends JobOptionsBase = any, JobData extends JobDataBase = any> {
+export interface JobCompletionCallback<JobOptions extends JobOptionsBase = any, JobData extends JobDataBase = any> {
   (completedJob: JobType<JobOptions, JobData>): Promise<void>
 }

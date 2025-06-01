@@ -3,7 +3,7 @@ import { EventEmitter } from 'events';
 import path from 'node:path';
 import cron from 'node-cron';
 
-import type { JobCallbackFunction, JobDataBase, JobOptionsBase, JobType } from './types/Job';
+import type { JobCompletionCallback, JobDataBase, JobOptionsBase, JobType } from './types/Job';
 import type { QueueOptions, QueueType } from './types/Queue';
 import type { BatchType } from './types/Batch';
 import type { WorkerResponse } from './types/Worker';
@@ -33,7 +33,7 @@ export class Queue<JobOptions extends JobOptionsBase = JobOptionsBase, JobData e
   // maintain references to job completion callbacks (if supplied);
   //  they otherwise would be lost during serialization with worker threads
   private jobCompletionCallbacks: {
-    [jobId: string]: JobCallbackFunction<JobOptions, JobData>
+    [jobId: string]: JobCompletionCallback<JobOptions, JobData>
   };
 
   // maintain references to batches
@@ -44,9 +44,9 @@ export class Queue<JobOptions extends JobOptionsBase = JobOptionsBase, JobData e
   constructor(options: QueueOptions) {
     super();
 
+    if (!options || !options.processJobExportPath) throw new Error('Queue constructor requires options object of type QueueOptions');
     const { processJobExportPath } = options;
     this.processJobExportPath = processJobExportPath;
-    if (!options || !this.processJobExportPath) throw new Error('Queue constructor requires options object of type QueueOptions');
 
     this.queuedJobs = [];
     this.processingJobs = [];
