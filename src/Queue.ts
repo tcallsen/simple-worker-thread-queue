@@ -114,11 +114,12 @@ export class Queue<JobOptions extends JobOptionsBase = JobOptionsBase, JobData e
     this.processingJobs.push(job);
 
     // initialize worker thread to process job - thread will exit when job is finished processing
-    const worker: Worker = new Worker(path.join(__dirname, 'Worker'));
+    // NOTE: Just tests must load the compiled JavaScript version of Worker.ts
+    console.log('__dirname:', __dirname);
+    const workerCodePath: string = path.join(__dirname, process.env.NODE_ENV === 'test' ? '../dist/src/Worker.js': 'Worker.ts');
+    console.log('workerCodePath:', workerCodePath);
+    const worker: Worker = new Worker(workerCodePath);
     worker.on('message', this.onWorkerResponse.bind(this));
-    worker.on('exit', (status) => {
-      console.log('worker exited with status', status);
-    });
     worker.postMessage({ jobJson: job.asJSON(), processJobExportPath: this.processJobExportPath });
   }
 
