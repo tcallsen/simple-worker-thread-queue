@@ -82,7 +82,7 @@ export class Queue<JobOptions extends JobOptionsBase = JobOptionsBase, JobData e
   }
 
   addToBatch(options: JobOptions, batch: BatchType<JobOptions, JobData>): JobType<JobOptions, JobData> {
-    const job: Job<JobOptions, JobData> = new Job<JobOptions, JobData>({ options, batch: batch.getId() } as { options: JobOptions, batch: string });
+    const job: JobType<JobOptions, JobData> = new Job<JobOptions, JobData>({ options, batch: batch.getId() } as { options: JobOptions, batch: string });
     batch.addJob(job);
 
     // save reference to batch
@@ -99,7 +99,19 @@ export class Queue<JobOptions extends JobOptionsBase = JobOptionsBase, JobData e
     return job;
   }
 
-  async startProcessing() {
+  getQueuedJobs(): JobType<JobOptions, JobData>[] {
+    return this.queuedJobs;
+  }
+
+  getProcessingJobs(): JobType<JobOptions, JobData>[] {
+    return this.processingJobs;
+  }
+
+  getFinishedJobs(): JobType<JobOptions, JobData>[] {
+    return this.finishedJobs;
+  }
+
+  private async startProcessing() {
     if (this.processingJobs.length >= CONCURRENT_WORKER_THREADS || this.queuedJobs.length === 0) return;
 
     console.log(`startProcessing with queue length ${this.queuedJobs.length} and currently processing jobs ${this.processingJobs.length}`);
@@ -115,24 +127,10 @@ export class Queue<JobOptions extends JobOptionsBase = JobOptionsBase, JobData e
 
     // initialize worker thread to process job - thread will exit when job is finished processing
     // NOTE: Just tests must load the compiled JavaScript version of Worker.ts
-    console.log('__dirname:', __dirname);
-    const workerCodePath: string = path.join(__dirname, process.env.NODE_ENV === 'test' ? '../dist/src/Worker.js': 'Worker.ts');
-    console.log('workerCodePath:', workerCodePath);
+    const workerCodePath: string = path.join(__dirname, process.env.NODE_ENV === 'test' ? '../dist/src/Worker': 'Worker');
     const worker: Worker = new Worker(workerCodePath);
     worker.on('message', this.onWorkerResponse.bind(this));
     worker.postMessage({ jobJson: job.asJSON(), processJobExportPath: this.processJobExportPath });
-  }
-
-  getQueuedJobs(): JobType<JobOptions, JobData>[] {
-    return this.queuedJobs;
-  }
-
-  getProcessingJobs(): JobType<JobOptions, JobData>[] {
-    return this.processingJobs;
-  }
-
-  getFinishedJobs(): JobType<JobOptions, JobData>[] {
-    return this.finishedJobs;
   }
 
   private updateJobBatch(job: JobType<JobOptions, JobData>) {

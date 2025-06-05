@@ -5,7 +5,7 @@ import type { JobCompletionCallback } from '../src/types/Job';
 import type { QueueType } from '../src/types/Queue';
 
 import {Queue} from '../src/Queue';
-import { Batch, type BatchCompletionCallback } from '../src';
+import { Batch, type BatchType, type BatchCompletionCallback } from '../src';
 
 describe('Queue tests', () => {
   let queue: QueueType<JobTestOptions, JobTestData>;
@@ -74,7 +74,7 @@ describe('Queue tests', () => {
     
     expect(completionCallback).not.toHaveBeenCalled();
     
-    const batch: Batch<JobTestOptions, JobTestData> = new Batch<JobTestOptions, JobTestData>(completionCallback);
+    const batch: BatchType<JobTestOptions, JobTestData> = new Batch<JobTestOptions, JobTestData>(completionCallback);
     queue.addToBatch(options, batch);
     queue.addToBatch(options, batch);
 
@@ -107,7 +107,7 @@ describe('Queue tests', () => {
         resolve();
       });
     });
-    const batch: Batch<JobTestOptions, JobTestData> = new Batch<JobTestOptions, JobTestData>(batchCompletionCallback);
+    const batch: BatchType<JobTestOptions, JobTestData> = new Batch<JobTestOptions, JobTestData>(batchCompletionCallback);
     
     // create job with completion callback
     const jobCompletionCallback: JobCompletionCallback<JobTestOptions, JobTestData> = jest.fn(async () => {});
