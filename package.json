@@ -10,7 +10,7 @@
     "build": "rm -rf dist && npx tsc --project tsconfig.json",
     "check": "npx tsc --noEmit",
     "prepublishOnly": "npm run build && npm test",
-    "test": "jest --detectOpenHandles"
+    "test": "npm run build && jest --detectOpenHandles"
   },
   "repository": {
     "type": "git",

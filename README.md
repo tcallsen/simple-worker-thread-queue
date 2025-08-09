@@ -77,8 +77,18 @@ const job2 = queue.addToBatch(job2Options, batch);
 
 ```
 
+## Example Usage
+
+This package is used in one of my other projects, where it performs the queuing and execution of video conversion jobs created from a REST API: https://github.com/tcallsen/video-conversion-rest-api
+
+![Diagram showing components and interactions of a Vido Transcoding REST API](https://raw.githubusercontent.com/tcallsen/video-conversion-rest-api/refs/heads/main/docs/Video%20Converstion%20REST%20API%20v1.drawio.svg)
+
+This module makes up the `In-memory Queue` in the diagram above.
+
+In that project, `JobOptionsBase` and `JobDataBase` are both extended to include use-case specific data: https://github.com/tcallsen/video-conversion-rest-api/blob/main/src/types/TranscodeJob.ts
+
 ## Inspiration
 
-When AWS announced it would be [discontinuing support for their Elastic Transcoder](https://aws.amazon.com/elastictranscoder/faqs/) service, I created a small REST-based service to replace it. As part of this service I needed simple job queuing, with job processing offloaded so the main thread could handle further REST requests. 
+When AWS announced it would be [discontinuing support for their Elastic Transcoder](https://aws.amazon.com/elastictranscoder/faqs/) service, I created a small [REST-based service](https://github.com/tcallsen/video-conversion-rest-api) to replace it (mentioned above). As part of this service I needed simple job queuing, with job processing offloaded so the main thread could handle further REST requests. 
 
 Existing queuing solutions like [BullMQ](https://bullmq.io/) were feature rich but overkill. I spun the queueing code I created off as a seperate npm package incase it could be used else-where.
