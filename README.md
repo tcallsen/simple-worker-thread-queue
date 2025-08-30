@@ -92,3 +92,5 @@ In that project, `JobOptionsBase` and `JobDataBase` are both extended to include
 When AWS announced it would be [discontinuing support for their Elastic Transcoder](https://aws.amazon.com/elastictranscoder/faqs/) service, I created a small [REST-based service](https://github.com/tcallsen/video-conversion-rest-api) to replace it (mentioned above). As part of this service I needed simple job queuing, with job processing offloaded so the main thread could handle further REST requests. 
 
 Existing queuing solutions like [BullMQ](https://bullmq.io/) were feature rich but overkill. I spun the queueing code I created off as a seperate npm package incase it could be used else-where.
+
+Here is a link to a [blog post](https://taylor.callsen.me/creating-an-open-source-video-conversion-service/) I wrote with more information about the service mentioned above.
